@@ -1,3 +1,12 @@
+# GIT
+-   repositório git local criado e com branc master em vez de main
+# mude o nome da branch
+	git branch -m main
+# adicione o repositório local ao remoto passando endereço do projeto criado no gitlab
+	git remote add origin <endereço-do-repositório-GitLab>
+# envie o primeiro push para main
+	git push -u origin main
+
 ## FRONTEND ##
 
 ## Depois que app estiver no ar, vamos criar o react
