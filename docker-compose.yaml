@@ -1,0 +1,14 @@
+version: '3'
+services:
+  store:
+    build:
+      context: .
+      dockerfile: ./docker/react/Dockerfile
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - store

@@ -1,3 +1,42 @@
+## FRONTEND ##
+
+## Depois que app estiver no ar, vamos criar o react
+    npx create-react-app frontend
+    npm start
+    npm install react-bootstrap bootstrap
+    npm install --save react-router-dom
+
+# instalar bootstrap no projeto
+    usar estilo bootstrap no aquivo index.html
+
+# Criar componentes em src/
+
+# criar um componente especifico para navegação
+    import { NavLink } from 'react-router-dom';
+    import { Navbar, Nav } from 'react-bootstrap';
+
+# Usar Router para navegar entre paginas 
+          <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path='department/*' element={<Department/>} />
+        <Route path='employee/*' element={<Employee/>} />
+      </Routes>
+
+
+# Crie um arquivo .env no src/ para add url da api
+    REACT_APP_API = http://127.0.0.1:8000/
+    REACT_APP_PHOTOPATH = http://127.0.0.1:8000/media/
+
+# Problemas ao puxar as variaveis de ambiente do arquivo .env
+
+
+# Problemas de loop infinito na requisição à api
+
+
+
+
+# ------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
