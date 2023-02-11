@@ -1,8 +1,11 @@
+# Esses arquivos acabam criando um container store-store sem uso, já que serviu apenas para fazer o build da app react.
 version: '3'
 services:
   store:
     build:
+    #contexto é onde estão os arquivo que irão para o container
       context: .
+    # ./ porque a partir da onde está o docker-compose eu acho meu dockerfile 
       dockerfile: ./docker/react/Dockerfile
   nginx:
     build:
@@ -10,5 +13,8 @@ services:
       dockerfile: ./docker/nginx/Dockerfile
     ports:
       - "80:80"
+    # monta primeiro o store e depois o nginx
     depends_on:
       - store
+# não uso volume pq não estou passando nada do meu host para o container
+# eu copio a pasta buil da imagem store para o nginx direto no dockerfile do nginx

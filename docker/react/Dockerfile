@@ -16,9 +16,10 @@ COPY . .
 # Execute o comando para construir a aplicação React
 RUN npm run build
 
-# Execute o comando para iniciar o aplicativo
+# Execute o comando para iniciar o aplicativo se fosse para dev
 #CMD [ "npm", "start" ]
 
+# Sem docker-compose criariamos a imagem assim
 #docker build -t <nome_da_imagem> .
 
 #docker run -p 3000:3000 <nome_da_imagem>
