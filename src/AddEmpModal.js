@@ -13,7 +13,7 @@ export class AddEmpModal extends Component {
         this.state={deps:[]};//add departamentos para mostrá-los no dropdown
         this.handleSubmit=this.handleSubmit.bind(this);// bind metodo que faz o POST 
         this.handleFileSelected=this.handleFileSelected.bind(this);// bind o puload da imagem
-
+    
     }
 
 
@@ -46,6 +46,7 @@ export class AddEmpModal extends Component {
             body:JSON.stringify({
                 IdEmployee:null,
                 EmployeeName:event.target.EmployeeName.value,
+                //Department:this.state.IdDepartment,
                 Department:event.target.Department.value,
                 DateOfJoining:event.target.DateOfJoining.value,
                 PhotoFileName:this.photofilename
@@ -85,7 +86,7 @@ export class AddEmpModal extends Component {
             //this.imagesrc='http://127.0.0.1:8000/media/'+result;
         },
         (error)=>{
-            alert('Failed');
+            alert('Failed File Upload');
         })
 
     }
@@ -119,12 +120,14 @@ centered
                             placeholder="EmployeeName"/>
                         </Form.Group>
 
+                    {/* Mostro o nomeDep mas pego o IdDep para salvar **/}
                         <Form.Group controlId="Department">
-                            <Form.Label> Department</Form.Label>
-                            <Form.Control as="select">
-                                {this.state.deps.map(dep=>
-                                    <option key={dep.IdDepartment}>{dep.DepartmentName}</option>)}
-                            </Form.Control>
+                        <Form.Label>Department</Form.Label>
+                        <Form.Control as="select" name="Department" value={this.state.Department} onChange={this.handleChange}>
+                            {this.state.deps.map(dep =>
+                            <option key={dep.IdDepartment} value={dep.IdDepartment}>{dep.DepartmentName}</option>
+                            )}
+                        </Form.Control>
                         </Form.Group>
 
                         <Form.Group controlId="DateOfJoining">
