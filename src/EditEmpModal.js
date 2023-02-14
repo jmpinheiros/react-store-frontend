@@ -1,13 +1,38 @@
 import React, { Component } from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import {Modal, Button, Row, Col, Form, Image} from 'react-bootstrap';
+
+// Teste Variáveis ambiente
+let REACT_APP_API = 'http://127.0.0.1:8000/'
+let REACT_APP_PHOTOPATH = 'http://127.0.0.1:8000/media/'
+
 
 //Componente que altera um Employee
-
 export class EditEmpModal extends Component {
     constructor(props){
         super(props);
-        this.handleSubmit=this.handleSubmit.bind(this);
+        this.state={deps:[]};//add departamentos para mostrá-los no dropdown
+        this.handleSubmit=this.handleSubmit.bind(this);// bind metodo que faz o POST 
+        this.handleFileSelected=this.handleFileSelected.bind(this);// bind o puload da imagem
+    
+    }
 
+
+    //variáveis para salvar detalhes da foto
+    photofilename = 'anonymous.png';
+
+    //imagesrc = process.env.REACT_APP_PHOTOPATH+this.photofilename;
+    imagesrc = REACT_APP_PHOTOPATH+this.photofilename;
+    //imagesrc = 'http://127.0.0.1:8000/media/'+this.photofilename;
+    
+    // popular o dropdown do componentdidmount com o array deps
+    componentDidMount(){
+        //fetch(process.env.REACT_APP_API+'department')
+        fetch(REACT_APP_API+'department')
+        //fetch('http://127.0.0.1:8000/department/')
+        .then(response=>response.json())
+        .then(data=>{
+            this.setState({deps: data});
+        });
     }
 
     handleSubmit(event){
@@ -21,7 +46,10 @@ export class EditEmpModal extends Component {
             },
             body:JSON.stringify({
                 IdEmployee:event.target.IdEmployee.value,
-                EmployeeName:event.target.EmployeeName.value
+                EmployeeName:event.target.EmployeeName.value,
+                Department:event.target.Department.value,
+                DateOfJoining:event.target.DateOfJoining.value,
+                PhotoFileName:this.photofilename
             })
         })
         .then(res=>res.json())
@@ -29,10 +57,41 @@ export class EditEmpModal extends Component {
             alert(result);
         },
         (error)=>{
-            alert('Failed');
+            alert('Failed Add Employee');
         })
         
     }
+    
+    //add método para salvar a foto passada, uso data do form e append file nele
+    handleFileSelected(event){
+        event.preventDefault();
+        this.photofilename=event.target.files[0].name;
+        const formData = new FormData();
+        formData.append(
+            "myFile",
+            event.target.files[0],
+            event.target.files[0].name
+        );
+        fetch(REACT_APP_API+'employee/saveFile/',{
+        //fetch(process.env.REACT_APP_API+'employee/saveFile/',{
+        //fetch('http://127.0.0.1:8000/employee/saveFile/',{
+            method:'POST',
+            body:formData
+        })
+        //se tudo for com sucesso, atualizado imagesrc
+        .then(res=>res.json())
+        .then((result)=>{
+            this.imagesrc=REACT_APP_PHOTOPATH+result;
+            //this.imagesrc=process.env.REACT_APP_PHOTOPATH+result;
+            //this.imagesrc='http://127.0.0.1:8000/media/'+result;
+        },
+        (error)=>{
+            alert('Failed File Upload');
+        })
+
+    }
+
+
 
     render(){
         return(
@@ -54,31 +113,57 @@ centered
             <Row>
                 <Col sm={6}>
                     <Form onSubmit={this.handleSubmit}>
-                    {/* add screen para editar nome, pego o id do empartamento que cliquei para editar */}
-                    {/* pego a variável empid que veio do render() em Employee e mostro no formulário */}
+                        
                         <Form.Group controlId="IdEmployee">
                             <Form.Label> IdEmployee</Form.Label>
                             <Form.Control type="Text" name="IdEmployee" required
-                            disable
-                            defaultValue={this.props.empid}
-                            placeholder="IdEmployee"/>
+                            placeholder="IdEmployee"
+                            disabled
+                            defaultValue={this.props.empid}/>
                         </Form.Group>
-                     {/* Dentro do editar nome uso o mesmo form de add employee */}
-                     {/* pego a variável empname que veio do render() em Employee e mostro no formulário */}    
+
                         <Form.Group controlId="EmployeeName">
                             <Form.Label> EmployeeName</Form.Label>
                             <Form.Control type="Text" name="EmployeeName" required
                             defaultValue={this.props.empname}
                             placeholder="EmployeeName"/>
-
                         </Form.Group>
 
+                    {/* Mostro o nomeDep mas pego o IdDep para salvar **/}
+                        <Form.Group controlId="Department">
+                            <Form.Label>Department</Form.Label>
+                            <Form.Control as="select" defaultValue={this.props.depmt}>
+                                {this.state.deps.map(dep =>
+                                <option key={dep.IdDepartment}>{dep.DepartmentName}</option>
+                                )}
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group controlId="DateOfJoining">
+                            <Form.Label> DateOfJoining</Form.Label>
+                            <Form.Control 
+                            type="date"
+                            name="DateOfJoining"
+                            required
+                            placeholder="DateOfJoining"
+                            defaultValue={this.props.doj}
+                            />
+
+                        </Form.Group>
+                        
                         <Form.Group>
                             <Button variant="primary" type="submit">
-                                Update Employee
+                                update Employee
                             </Button>
                         </Form.Group>
                     </Form>
+                </Col>
+
+                <Col sm={6}>
+                {/* add Imagem */}
+                    <Image width="200px" height="200px"
+                    src={REACT_APP_PHOTOPATH+this.props.photofilename}/>
+                    <input onChange={this.handleFileSelected} type="File"/>
                 </Col>
             </Row>
 

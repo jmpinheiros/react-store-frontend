@@ -59,10 +59,12 @@ centered
                         <Form.Group controlId="IdDepartment">
                             <Form.Label> IdDepartment</Form.Label>
                             <Form.Control type="Text" name="IdDepartment" required
-                            disable
-                            defaultValue={this.props.depid}
-                            placeholder="IdDepartment"/>
+                            placeholder="IdDepartment"
+                            disabled
+                            defaultValue={this.props.depid}/>
+                            
                         </Form.Group>
+
                      {/* Dentro do editar nome uso o mesmo form de add department */}
                      {/* pego a variável depname que veio do render() em Department e mostro no formulário */}    
                         <Form.Group controlId="DepartmentName">
