@@ -41,6 +41,9 @@ export class Employee extends Component{
 
 
     }
+
+    
+      
     render(){
         const {emps, empid, empname,depmt,photofilename,doj}=this.state;//add variável para uso no formulário
         let addModalClose=()=>this.setState({addModalShow:false}); //add screen employee

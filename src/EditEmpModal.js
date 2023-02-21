@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form, Image} from 'react-bootstrap';
 
 // Teste Variáveis ambiente
-let REACT_APP_API = 'http://127.0.0.1:8000/'
-let REACT_APP_PHOTOPATH = 'http://127.0.0.1:8000/media/'
+const REACT_APP_API = 'http://localhost:8000/'
+const REACT_APP_PHOTOPATH = 'http://localhost:8000/media/'
 
 
 //Componente que altera um Employee
 export class EditEmpModal extends Component {
     constructor(props){
         super(props);
-        this.state={deps:[]};//add departamentos para mostrá-los no dropdown
+        this.state={deps:[]}; 
         this.handleSubmit=this.handleSubmit.bind(this);// bind metodo que faz o POST 
-        this.handleFileSelected=this.handleFileSelected.bind(this);// bind o puload da imagem
+        this.handleFileSelected=this.handleFileSelected.bind(this);// bind o upload da imagem
     
     }
 
 
     //variáveis para salvar detalhes da foto
-    photofilename = 'anonymous.png';
+    photofilename = 'jow.png';
 
     //imagesrc = process.env.REACT_APP_PHOTOPATH+this.photofilename;
     imagesrc = REACT_APP_PHOTOPATH+this.photofilename;
@@ -27,18 +27,20 @@ export class EditEmpModal extends Component {
     // popular o dropdown do componentdidmount com o array deps
     componentDidMount(){
         //fetch(process.env.REACT_APP_API+'department')
-        fetch(REACT_APP_API+'department')
-        //fetch('http://127.0.0.1:8000/department/')
+        fetch(REACT_APP_API+'department/')
+        //fetch('http://localhost:8000/department/')
         .then(response=>response.json())
+        
         .then(data=>{
             this.setState({deps: data});
-        });
+        }).catch(error => console.error(error));
+
     }
 
     handleSubmit(event){
         event.preventDefault();
-        //fetch(process.env.REACT_APP_API+'employee')
-        fetch('http://127.0.0.1:8000/employee/',{
+        //fetch(process.env.REACT_APP_API+'employee/',{
+        fetch(REACT_APP_API+'employee/',{
             method:'PUT',
             headers:{
                 'Accept': 'application/json',
@@ -47,6 +49,7 @@ export class EditEmpModal extends Component {
             body:JSON.stringify({
                 IdEmployee:event.target.IdEmployee.value,
                 EmployeeName:event.target.EmployeeName.value,
+                //Department:this.state.selectedDepId,
                 Department:event.target.Department.value,
                 DateOfJoining:event.target.DateOfJoining.value,
                 PhotoFileName:this.photofilename
@@ -91,7 +94,7 @@ export class EditEmpModal extends Component {
 
     }
 
-
+       
 
     render(){
         return(
@@ -130,13 +133,13 @@ centered
                         </Form.Group>
 
                     {/* Mostro o nomeDep mas pego o IdDep para salvar **/}
-                        <Form.Group controlId="Department">
-                            <Form.Label>Department</Form.Label>
-                            <Form.Control as="select" defaultValue={this.props.depmt}>
-                                {this.state.deps.map(dep =>
-                                <option key={dep.IdDepartment}>{dep.DepartmentName}</option>
-                                )}
-                            </Form.Control>
+                    <Form.Group controlId="Department">
+                        <Form.Label>Department</Form.Label>
+                        <Form.Control as="select" name="Department" defaultValue={this.props.depmt}>
+                            {this.state.deps.map(dep =>
+                            <option key={dep.IdDepartment} value={dep.IdDepartment}>{dep.DepartmentName}</option>
+                            )}
+                        </Form.Control>
                         </Form.Group>
 
                         <Form.Group controlId="DateOfJoining">
@@ -153,7 +156,7 @@ centered
                         
                         <Form.Group>
                             <Button variant="primary" type="submit">
-                                update Employee
+                                Update Employee
                             </Button>
                         </Form.Group>
                     </Form>
