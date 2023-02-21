@@ -10,9 +10,9 @@ const REACT_APP_PHOTOPATH = 'http://localhost:8000/media/'
 export class EditEmpModal extends Component {
     constructor(props){
         super(props);
-        this.state={deps:[]}; 
-        this.handleSubmit=this.handleSubmit.bind(this);// bind metodo que faz o POST 
-        this.handleFileSelected=this.handleFileSelected.bind(this);// bind o upload da imagem
+        this.state={deps:[]}; //lista de departamentos para fonecer quando add employee
+        this.handleSubmit=this.handleSubmit.bind(this); //Bind metodo que faz o POST 
+        this.handleFileSelected=this.handleFileSelected.bind(this); //Bind o upload da imagem
     
     }
 
@@ -28,9 +28,7 @@ export class EditEmpModal extends Component {
     componentDidMount(){
         //fetch(process.env.REACT_APP_API+'department')
         fetch(REACT_APP_API+'department/')
-        //fetch('http://localhost:8000/department/')
         .then(response=>response.json())
-        
         .then(data=>{
             this.setState({deps: data});
         }).catch(error => console.error(error));
@@ -49,7 +47,6 @@ export class EditEmpModal extends Component {
             body:JSON.stringify({
                 IdEmployee:event.target.IdEmployee.value,
                 EmployeeName:event.target.EmployeeName.value,
-                //Department:this.state.selectedDepId,
                 Department:event.target.Department.value,
                 DateOfJoining:event.target.DateOfJoining.value,
                 PhotoFileName:this.photofilename
@@ -77,7 +74,6 @@ export class EditEmpModal extends Component {
         );
         fetch(REACT_APP_API+'employee/saveFile/',{
         //fetch(process.env.REACT_APP_API+'employee/saveFile/',{
-        //fetch('http://127.0.0.1:8000/employee/saveFile/',{
             method:'POST',
             body:formData
         })
@@ -86,7 +82,7 @@ export class EditEmpModal extends Component {
         .then((result)=>{
             this.imagesrc=REACT_APP_PHOTOPATH+result;
             //this.imagesrc=process.env.REACT_APP_PHOTOPATH+result;
-            //this.imagesrc='http://127.0.0.1:8000/media/'+result;
+           
         },
         (error)=>{
             alert('Failed File Upload');

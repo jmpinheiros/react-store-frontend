@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 
-//Componente que adicona um Department
+// Teste Variáveis de ambiente
+const REACT_APP_API = 'http://127.0.0.1:8000/'
 
+//Componente que adicona um Department
 export class AddDepModal extends Component {
     constructor(props){
         super(props);
@@ -13,7 +15,7 @@ export class AddDepModal extends Component {
     handleSubmit(event){
         event.preventDefault();
         //fetch(process.env.REACT_APP_API+'department')
-        fetch('http://127.0.0.1:8000/department/',{
+        fetch(REACT_APP_API+'department/',{
             method:'POST',
             headers:{
                 'Accept': 'application/json',

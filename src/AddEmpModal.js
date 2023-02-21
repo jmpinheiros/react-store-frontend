@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form, Image} from 'react-bootstrap';
 
 // Teste Variáveis ambiente
-let REACT_APP_API = 'http://127.0.0.1:8000/'
-let REACT_APP_PHOTOPATH = 'http://127.0.0.1:8000/media/'
+const REACT_APP_API = 'http://127.0.0.1:8000/'
+const REACT_APP_PHOTOPATH = 'http://127.0.0.1:8000/media/'
 
 
 //Componente que altera um Employee
 export class AddEmpModal extends Component {
     constructor(props){
         super(props);
-        this.state={deps:[]};//add departamentos para mostrá-los no dropdown
-        this.handleSubmit=this.handleSubmit.bind(this);// bind metodo que faz o POST 
-        this.handleFileSelected=this.handleFileSelected.bind(this);// bind o puload da imagem
+        this.state={deps:[]}; //add departamentos para mostrá-los no dropdown
+        this.handleSubmit=this.handleSubmit.bind(this); //Bind método que faz o POST 
+        this.handleFileSelected=this.handleFileSelected.bind(this); //Bind o upload da imagem
     
     }
 
@@ -22,12 +22,11 @@ export class AddEmpModal extends Component {
 
     //imagesrc = process.env.REACT_APP_PHOTOPATH+this.photofilename;
     imagesrc = REACT_APP_PHOTOPATH+this.photofilename;
-    //imagesrc = 'http://127.0.0.1:8000/media/'+this.photofilename;
     
     // popular o dropdown do componentdidmount com o array deps
     componentDidMount(){
-        //fetch(process.env.REACT_APP_API+'department')
-        fetch('http://127.0.0.1:8000/department/')
+        //fetch(process.env.REACT_APP_API+'department/')
+        fetch(REACT_APP_API+'department/')
         .then(response=>response.json())
         .then(data=>{
             this.setState({deps: data});
@@ -36,8 +35,8 @@ export class AddEmpModal extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        //fetch(process.env.REACT_APP_API+'employee')
-        fetch('http://127.0.0.1:8000/employee/',{
+        //fetch(process.env.REACT_APP_API+'employee/')
+        fetch(REACT_APP_API+'/employee/',{
             method:'POST',
             headers:{
                 'Accept': 'application/json',
@@ -46,7 +45,6 @@ export class AddEmpModal extends Component {
             body:JSON.stringify({
                 IdEmployee:null,
                 EmployeeName:event.target.EmployeeName.value,
-                //Department:this.state.IdDepartment,
                 Department:event.target.Department.value,
                 DateOfJoining:event.target.DateOfJoining.value,
                 PhotoFileName:this.photofilename
@@ -83,7 +81,7 @@ export class AddEmpModal extends Component {
         .then((result)=>{
             this.imagesrc=REACT_APP_PHOTOPATH+result;
             //this.imagesrc=process.env.REACT_APP_PHOTOPATH+result;
-            //this.imagesrc='http://127.0.0.1:8000/media/'+result;
+            
         },
         (error)=>{
             alert('Failed File Upload');
@@ -122,12 +120,12 @@ centered
 
                     {/* Mostro o nomeDep mas pego o IdDep para salvar **/}
                         <Form.Group controlId="Department">
-                        <Form.Label>Department</Form.Label>
-                        <Form.Control as="select" name="Department" value={this.state.Department} onChange={this.handleChange}>
-                            {this.state.deps.map(dep =>
-                            <option key={dep.IdDepartment} value={dep.IdDepartment}>{dep.DepartmentName}</option>
-                            )}
-                        </Form.Control>
+                            <Form.Label>Department</Form.Label>
+                            <Form.Control as="select" name="Department" value={this.state.Department} onChange={this.handleChange}>
+                                {this.state.deps.map(dep =>
+                                <option key={dep.IdDepartment} value={dep.IdDepartment}>{dep.DepartmentName}</option>
+                                )}
+                            </Form.Control>
                         </Form.Group>
 
                         <Form.Group controlId="DateOfJoining">
