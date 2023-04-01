@@ -6,7 +6,7 @@ import {Department} from './Department';
 import {Employee} from './Employee';
 import {Navigation} from './Navigation';
 
-// modulos react para router switch não usa mais, agora é Routes
+// modulos react para router, switch não usa mais, agora é Routes
 // React route v6
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
     <div className="container">
       <h3 className="m-3 d-flex justify-content-center">
-        Store React-Django
+        React-Django Store
       </h3>
 
       <Navigation/>

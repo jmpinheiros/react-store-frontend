@@ -7,6 +7,18 @@
 # envie o primeiro push para main
 	git push -u origin main
 
+## Subindo a App
+
+    docker-compose up --build -d
+
+- Em prod use o docker/nginx/dockerfile_prd
+- Em dev use docker/react/dockefile
+
+- Em prd Faz o build da app e sobe um nginx com as configurações necessárias, acesse em localhost:80
+
+- Em dev ele sobe o react, acesse em localhost:3000
+
+
 ## FRONTEND ##
 
 ## Depois que app estiver no ar, vamos criar o react

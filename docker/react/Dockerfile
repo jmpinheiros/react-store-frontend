@@ -13,11 +13,11 @@ RUN npm install
 # Copie todos os outros arquivos para o contêiner
 COPY . .
 
-# Execute o comando para construir a aplicação React
-RUN npm run build
+# Exponha a porta 3000
+EXPOSE 3000
 
 # Execute o comando para iniciar o aplicativo se fosse para dev
-#CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]
 
 # Sem docker-compose criariamos a imagem assim
 #docker build -t <nome_da_imagem> .
